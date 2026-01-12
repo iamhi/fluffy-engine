@@ -1,4 +1,4 @@
-import { body, validationResult } from 'express-validator';
+import { body, header, validationResult } from 'express-validator';
 
 export const transactionValidationRules = [
   body('amount')
@@ -15,6 +15,17 @@ export const transactionValidationRules = [
 
 export const ollamaChatRequest = [
   body('message').exists().withMessage('Message is required').isString(),
+];
+
+export const loginRequest = [
+  body('username').exists().withMessage('Username is required').isString(),
+  body('password').exists().withMessage('Password is required').isString(),
+];
+
+export const refreshTokenRequest = [
+  [body('token'), header('Authorization')].map((v) =>
+    v.notEmpty().withMessage('Authorization token is missing').isString()
+  ),
 ];
 
 export const validate = (req, res, next) => {

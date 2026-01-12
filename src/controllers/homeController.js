@@ -1,3 +1,7 @@
 export const home = (req, res) => {
-  res.json({ message: 'Welcome to Express Starter!' });
+  return res.json({ message: 'Welcome to Express Starter!' });
+};
+
+export const whoamI = (req, res) => {
+  return res.json({ userDetails: req.userDetails });
 };

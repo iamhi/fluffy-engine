@@ -30,7 +30,18 @@ const { command, username, password } = argv;
 
 switch (command) {
   case 'register': {
+    if (!username || username.length < 5) {
+      console.error('Invalid username size');
+
+      throw new Error('Invalid username size');
+    } else if (!password || password.length < 5) {
+      console.error('Invalid password size');
+
+      throw new Error('Invalid password size');
+    }
+
     createUser(username, password);
+
     break;
   }
   case 'findbyusername': {
