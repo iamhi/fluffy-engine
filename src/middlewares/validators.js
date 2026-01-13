@@ -1,4 +1,4 @@
-import { body, header, validationResult } from 'express-validator';
+import { body, header, oneOf, validationResult } from 'express-validator';
 
 export const transactionValidationRules = [
   body('amount')
@@ -23,8 +23,11 @@ export const loginRequest = [
 ];
 
 export const refreshTokenRequest = [
-  [body('token'), header('Authorization')].map((v) =>
-    v.notEmpty().withMessage('Authorization token is missing').isString()
+  oneOf(
+    [header('token').exists().isString(), body('token').exists().isString()],
+    {
+      message: 'Authorization token is missing',
+    }
   ),
 ];
 

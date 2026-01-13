@@ -1,9 +1,11 @@
-import { getUserDetails } from '../core/tokenService';
+import { getUserDetails } from '../core/tokenService.js';
 
 // TODO: Implement cookies
 
 export const authenticated = (req, res, next) => {
   const token = getTokenFromRequest(req);
+
+  console.warn({ token });
 
   if (token === null) {
     const error = new Error('Invalid token');

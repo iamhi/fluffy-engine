@@ -9,6 +9,7 @@ import compression from 'compression';
 import { errorHandler } from './middlewares/errorHandler.js';
 
 import routes from './routes/index.js';
+import { setupAllRepositories } from './db/repositories.js';
 
 export const startServer = () => {
   const app = express();
@@ -25,6 +26,8 @@ export const startServer = () => {
       max: 100,
     })
   );
+
+  setupAllRepositories();
 
   app.use('/api', routes);
 
