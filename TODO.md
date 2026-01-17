@@ -16,9 +16,10 @@ The idea is to utilize multiple search results and come to a short conclusion.
 
 ### Todos:
 
-- User authentication
-- User conversations (CRUD): list convos, create new convo, delete convo, edit convo title
-- User chat: send message to convo
+- Make the api responses more clear and content type json
+- User authentication -- done
+- User conversations (CRUD): list convos, create new convo, delete convo, edit convo title -- partially done
+- User chat: send message to convo -- partially done
 - LLM response on convo
 - LLM convo summarize (in case of exceeding context). Convo Summary should be new entity in the database
 - Introduce tool_calling LLM and hello world tool

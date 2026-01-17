@@ -7,6 +7,7 @@ import {
 import {
   login,
   refreshToken,
+  whoami,
 } from '../controllers/authenticationController.js';
 import { authenticated } from '../middlewares/authentication.js';
 
@@ -21,5 +22,7 @@ router.post(
   authenticated,
   refreshToken
 );
+
+router.get('/whoami', authenticated, whoami);
 
 export default router;

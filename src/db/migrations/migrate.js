@@ -1,8 +1,10 @@
 import db from '../db.js';
 import changelog_0 from './changelog_0.js';
+import changelog_1 from './changelog_1.js';
 
 const changelogMap = {
   ['changelog_0']: changelog_0,
+  ['changelog_1']: changelog_1,
 };
 
 export const migrate = (fromChangelog) => {

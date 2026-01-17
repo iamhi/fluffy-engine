@@ -13,8 +13,15 @@ export const transactionValidationRules = [
   body('category').exists().withMessage('Category is required').isString(),
 ];
 
-export const ollamaChatRequest = [
+export const chatRequest = [
   body('message').exists().withMessage('Message is required').isString(),
+];
+
+export const messagesRequest = [
+  body('conversationUuid')
+    .exists()
+    .withMessage('conversationUuid is required')
+    .isString(),
 ];
 
 export const loginRequest = [

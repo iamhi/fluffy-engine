@@ -16,3 +16,7 @@ export const refreshToken = (req, res) => {
 
   return res.json({ token: newToken });
 };
+
+export const whoami = (req, res) => {
+  return res.json({ userDetails: req.userDetails });
+};

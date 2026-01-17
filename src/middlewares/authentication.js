@@ -30,7 +30,7 @@ const getTokenFromRequest = (req) => {
     return authHeader;
   }
 
-  const { token } = req.body;
+  const { token } = req.body || {};
 
   if (token) {
     return token;
