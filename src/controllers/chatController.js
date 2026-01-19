@@ -10,7 +10,7 @@ export const chat = async (req, res) => {
 
   const answer = sendMessage(userDetails, conversationUuid, message);
 
-  return res.json({ answer });
+  return res.json({ answer, success: true });
 };
 
 export const messages = (req, res) => {
@@ -19,7 +19,7 @@ export const messages = (req, res) => {
 
   const messages = getMessagesForConversation(userDetails, conversationUuid);
 
-  return res.json({ messages });
+  return res.json({ messages, success: true });
 };
 
 export const conversations = (req, res) => {
@@ -27,5 +27,5 @@ export const conversations = (req, res) => {
 
   const conversations = getConversations(userDetails);
 
-  return res.json({ conversations });
+  return res.json({ conversations, success: true });
 };

@@ -48,7 +48,7 @@ export const readUser = (usernameToFind) => {
 export const loginUser = (username, password) => {
   const existingUser = findUserByUsername(username);
 
-  if (bcrypt.compareSync(password, existingUser.password)) {
+  if (existingUser && bcrypt.compareSync(password, existingUser.password)) {
     return generateToken(existingUser.username, existingUser.uuid);
   }
 

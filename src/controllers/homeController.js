@@ -1,3 +1,3 @@
 export const home = (req, res) => {
-  return res.json({ message: 'Welcome to Express Starter!' });
+  return res.json({ success: true, message: 'Welcome to Express Starter!' });
 };

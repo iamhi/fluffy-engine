@@ -6,7 +6,7 @@ export const login = (req, res) => {
 
   const newToken = loginUser(username, password);
 
-  return res.json({ token: newToken });
+  return res.json({ token: newToken, success: true });
 };
 
 export const refreshToken = (req, res) => {
@@ -14,9 +14,9 @@ export const refreshToken = (req, res) => {
 
   const newToken = regenerateToken(userToken);
 
-  return res.json({ token: newToken });
+  return res.json({ token: newToken, success: true });
 };
 
 export const whoami = (req, res) => {
-  return res.json({ userDetails: req.userDetails });
+  return res.json({ userDetails: req.userDetails, success: true });
 };

@@ -24,9 +24,13 @@ export const authenticated = (req, res, next) => {
 };
 
 const getTokenFromRequest = (req) => {
-  const authHeader = req.get('Authorization');
+  let authHeader = req.get('Authorization');
 
   if (authHeader) {
+    if (authHeader.startsWith('Bearer ')) {
+      authHeader = authHeader.split(' ')[1].trim();
+    }
+
     return authHeader;
   }
 

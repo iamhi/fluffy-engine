@@ -1,5 +1,24 @@
 export const errorHandler = (err, req, res, next) => {
+  if (err.username) {
+    return res.status(401).json({
+      success: false,
+      message: err.message,
+    });
+  } else if (err.token) {
+    return res.status(401).json({
+      success: false,
+      message: err.message,
+    });
+  } else if (err.conversationId) {
+    return res.status(404).json({
+      success: false,
+      message: err.message,
+    });
+  }
+
   console.error(err.stack);
 
-  res.status(500).json({ error: err.message || 'Internal Server Error' });
+  return res
+    .status(500)
+    .json({ error: err.message || 'Internal Server Error' });
 };
