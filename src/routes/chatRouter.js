@@ -1,9 +1,5 @@
 import { Router } from 'express';
-import {
-  messagesRequest,
-  chatRequest,
-  validate,
-} from '../middlewares/validators.js';
+import { chatRequest, validate } from '../middlewares/validators.js';
 import {
   chat,
   conversations,
@@ -15,8 +11,12 @@ const router = Router();
 
 router.post('/', chatRequest, validate, authenticated, chat);
 
-router.post('/messages', messagesRequest, validate, authenticated, messages);
-
 router.get('/conversations', authenticated, conversations);
+
+router.get(
+  '/conversations/:conversationUuid/messages',
+  authenticated,
+  messages
+);
 
 export default router;

@@ -17,13 +17,6 @@ export const chatRequest = [
   body('message').exists().withMessage('Message is required').isString(),
 ];
 
-export const messagesRequest = [
-  body('conversationUuid')
-    .exists()
-    .withMessage('conversationUuid is required')
-    .isString(),
-];
-
 export const loginRequest = [
   body('username').exists().withMessage('Username is required').isString(),
   body('password').exists().withMessage('Password is required').isString(),

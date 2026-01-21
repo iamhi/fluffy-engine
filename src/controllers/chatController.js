@@ -14,8 +14,8 @@ export const chat = async (req, res) => {
 };
 
 export const messages = (req, res) => {
-  const { userDetails, body } = req;
-  const { conversationUuid } = body;
+  const { userDetails, params } = req;
+  const { conversationUuid } = params;
 
   const messages = getMessagesForConversation(userDetails, conversationUuid);
 
