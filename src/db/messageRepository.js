@@ -7,7 +7,7 @@ export const setup = (db) => {
   database = db;
 
   createMessageInsert = database.prepare(
-    'INSERT INTO messages (uuid, conversation_uuid, role, content) VALUES (?, ?, ?, ?)'
+    'INSERT INTO messages (uuid, conversation_uuid, role, content, created_at) VALUES (?, ?, ?, ?, ?)'
   );
 
   getMessagesByConversationUuidSelect = database.prepare(
@@ -16,7 +16,7 @@ export const setup = (db) => {
 };
 
 export const insertMessage = (uuid, conversationUuid, role, content) =>
-  createMessageInsert.run(uuid, conversationUuid, role, content);
+  createMessageInsert.run(uuid, conversationUuid, role, content, Date.now());
 
 export const findMessagesByConversationUuid = (conversationUuid) =>
   getMessagesByConversationUuidSelect.all(conversationUuid);

@@ -3,6 +3,7 @@ import {
   findAllConversationsByOwnerUuid,
   findConversationByUuidAndOwnerUuid,
   insertConversation,
+  updateUpdatedAtConversation,
 } from '../db/conversationRepository.js';
 import {
   findMessagesByConversationUuid,
@@ -12,17 +13,32 @@ import {
 const USER_ROLE = 'user';
 const ASSISTANT_ROLE = 'assistant';
 
-const entityMessageToDto = ({ uuid, conversation_uuid, role, content }) => ({
+const entityMessageToDto = ({
+  uuid,
+  conversation_uuid,
+  role,
+  content,
+  created_at,
+}) => ({
   uuid,
   conversationUuid: conversation_uuid,
   role,
   content,
+  createdAt: created_at,
 });
 
-const entityConversationToDto = ({ uuid, title, owner_uuid }) => ({
+const entityConversationToDto = ({
+  uuid,
+  title,
+  owner_uuid,
+  created_at,
+  updated_at,
+}) => ({
   uuid,
   title,
   ownerUuid: owner_uuid,
+  createdAt: created_at,
+  updatedAt: updated_at,
 });
 
 const createConversation = (userDetails, message) => {
@@ -54,6 +70,7 @@ const processMessages = (messages) => {
     uuid,
     role: ASSISTANT_ROLE,
     content: 'Wow that is awesome',
+    createdAt: Date.now(),
   };
 };
 
@@ -124,10 +141,13 @@ export const sendMessage = (userDetails, conversationId, message) => {
     answerMessage.content
   );
 
+  updateUpdatedAtConversation(conversation.uuid);
+
   return {
     uuid: answerMessage.uuid,
     conversationUuid: conversation.uuid,
     role: answerMessage.role,
     content: answerMessage.content,
+    createdAt: answerMessage.createdAt,
   };
 };

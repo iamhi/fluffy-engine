@@ -8,9 +8,7 @@
     "prod": "node ./index.js",
     "lint": "eslint . --ext .js",
     "format": "prettier --write .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate-make": "knex migrate:make",
-    "migrate": "knex migrate:latest"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
