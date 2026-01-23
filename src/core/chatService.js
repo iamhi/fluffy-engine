@@ -12,6 +12,19 @@ import {
 const USER_ROLE = 'user';
 const ASSISTANT_ROLE = 'assistant';
 
+const entityMessageToDto = ({ uuid, conversation_uuid, role, content }) => ({
+  uuid,
+  conversationUuid: conversation_uuid,
+  role,
+  content,
+});
+
+const entityConversationToDto = ({ uuid, title, owner_uuid }) => ({
+  uuid,
+  title,
+  ownerUuid: owner_uuid,
+});
+
 const createConversation = (userDetails, message) => {
   console.warn('Title generation not yet implemented');
 
@@ -45,7 +58,9 @@ const processMessages = (messages) => {
 };
 
 export const getConversations = (userDetails) => {
-  return findAllConversationsByOwnerUuid(userDetails.uuid);
+  return findAllConversationsByOwnerUuid(userDetails.uuid).map(
+    entityConversationToDto
+  );
 };
 
 export const getMessagesForConversation = (userDetails, conversationId) => {
@@ -62,7 +77,9 @@ export const getMessagesForConversation = (userDetails, conversationId) => {
     throw error;
   }
 
-  return findMessagesByConversationUuid(conversation.uuid);
+  return findMessagesByConversationUuid(conversation.uuid).map(
+    entityMessageToDto
+  );
 };
 
 export const sendMessage = (userDetails, conversationId, message) => {
@@ -86,8 +103,6 @@ export const sendMessage = (userDetails, conversationId, message) => {
 
     throw error;
   }
-
-  console.warn({ conversation });
 
   const historyMessages = findMessagesByConversationUuid(conversation.uuid);
 
