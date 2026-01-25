@@ -7,7 +7,7 @@ const client = new OpenAI({
   apiKey: 'ollama',
 });
 
-// Agent which provides titles to conversations based on the user's prompt
+// Agent which summarizes the input and provides an answer
 export const executeAgent = async (prompt) => {
   const response = await client.completions.create({
     model: GENERAL_MODEL,
