@@ -7,12 +7,25 @@ const client = new OpenAI({
   apiKey: 'ollama',
 });
 
+const SERVICE_ROLE = 'service';
+const SERVICE_PROMPT = `
+You are a service which provides answers.
+`;
+
+const SERVICE_MESSAGE = {
+  role: SERVICE_ROLE,
+  content: SERVICE_PROMPT,
+};
+
 // Agent which summarizes the input and provides an answer
-export const executeAgent = async (prompt) => {
-  const response = await client.completions.create({
+export const executeAgent = async (messages = []) => {
+  const context = [SERVICE_MESSAGE, ...messages];
+
+  const response = await client.chat.completions.create({
     model: GENERAL_MODEL,
-    prompt: `System: Make an interesting title from the user's prompt which follows. Make sure the title is around 100 characters. Do not suggest options, just provide a title.\nUser's prompt: ${prompt}`,
+    messages: context,
+    max_tokens: 10000,
   });
 
-  return response.choices[0].text;
+  return response.choices[0].message.content;
 };

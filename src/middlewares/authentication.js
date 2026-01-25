@@ -5,8 +5,6 @@ import { getUserDetails } from '../core/tokenService.js';
 export const authenticated = (req, res, next) => {
   const token = getTokenFromRequest(req);
 
-  console.warn({ token });
-
   if (token === null) {
     const error = new Error('Invalid token');
 

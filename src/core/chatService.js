@@ -10,6 +10,7 @@ import {
   insertMessage,
 } from '../db/messageRepository.js';
 import { executeAgent as executeTitleAgent } from './agents/titleAgent.js';
+import { executeAgent as executeGeneralAgent } from './agents/generalAgent.js';
 
 const USER_ROLE = 'user';
 const ASSISTANT_ROLE = 'assistant';
@@ -57,7 +58,7 @@ const createConversation = async (userDetails, message) => {
   };
 };
 
-const processMessages = (messages) => {
+const processMessages = async (messages) => {
   const uuid = uuidv4();
 
   // 1. llm tool calling operator
@@ -65,10 +66,13 @@ const processMessages = (messages) => {
   // do 1 and 2 for max X more tool calls
   // 3. use llm summarizer operator from tools responses, user message history and user's prompt
 
+  // Summarizer/Answering LLM
+  const content = await executeGeneralAgent(messages);
+
   return {
     uuid,
     role: ASSISTANT_ROLE,
-    content: 'Wow that is awesome',
+    content,
     createdAt: Date.now(),
   };
 };
@@ -103,8 +107,8 @@ export const sendMessage = async (userDetails, conversationId, message) => {
   let newConversation = false;
 
   if (!conversationId) {
-    conversation = await createConversation(userDetails, message);
     newConversation = true;
+    conversation = await createConversation(userDetails, message);
   } else {
     conversation = findConversationByUuidAndOwnerUuid(
       conversationId,
@@ -133,7 +137,7 @@ export const sendMessage = async (userDetails, conversationId, message) => {
     { role: USER_ROLE, content: message },
   ];
 
-  const answerMessage = processMessages(messagesForLlm);
+  const answerMessage = await processMessages(messagesForLlm);
 
   insertMessage(
     answerMessage.uuid,
@@ -152,14 +156,30 @@ export const sendMessage = async (userDetails, conversationId, message) => {
     createdAt: answerMessage.createdAt,
   };
 
+  const question = {
+    uuid: userMessageUuid,
+    conversationUuid: conversation.uuid,
+    role: USER_ROLE,
+    content: message,
+    createdAt: Date.now(),
+  };
+
   if (newConversation) {
+    delete conversation.id;
+
     return {
+      question,
       answer,
-      conversation,
+      conversation: {
+        ...conversation,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      },
     };
   }
 
   return {
+    question,
     answer,
   };
 };
