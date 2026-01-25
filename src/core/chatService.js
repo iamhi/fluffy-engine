@@ -9,7 +9,7 @@ import {
   findMessagesByConversationUuid,
   insertMessage,
 } from '../db/messageRepository.js';
-import { executeAgent as executeTitleAgent } from './agentService.js ./agents/titleAgent.js';
+import { executeAgent as executeTitleAgent } from './agents/titleAgent.js';
 
 const USER_ROLE = 'user';
 const ASSISTANT_ROLE = 'assistant';
