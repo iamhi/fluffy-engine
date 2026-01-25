@@ -9,6 +9,7 @@ import {
   findMessagesByConversationUuid,
   insertMessage,
 } from '../db/messageRepository.js';
+import { executeAgent as executeTitleAgent } from './agentService.js ./agents/titleAgent.js';
 
 const USER_ROLE = 'user';
 const ASSISTANT_ROLE = 'assistant';
@@ -41,11 +42,9 @@ const entityConversationToDto = ({
   updatedAt: updated_at,
 });
 
-const createConversation = (userDetails, message) => {
-  console.warn('Title generation not yet implemented');
-
+const createConversation = async (userDetails, message) => {
   const uuid = uuidv4();
-  const title = 'Placeholder title';
+  const title = await executeTitleAgent(message);
   const ownerUuid = userDetails.uuid;
 
   const { lastInsertRowid } = insertConversation(uuid, ownerUuid, title);
@@ -99,11 +98,13 @@ export const getMessagesForConversation = (userDetails, conversationId) => {
   );
 };
 
-export const sendMessage = (userDetails, conversationId, message) => {
+export const sendMessage = async (userDetails, conversationId, message) => {
   let conversation = {};
+  let newConversation = false;
 
   if (!conversationId) {
-    conversation = createConversation(userDetails, message);
+    conversation = await createConversation(userDetails, message);
+    newConversation = true;
   } else {
     conversation = findConversationByUuidAndOwnerUuid(
       conversationId,
@@ -143,11 +144,22 @@ export const sendMessage = (userDetails, conversationId, message) => {
 
   updateUpdatedAtConversation(conversation.uuid);
 
-  return {
+  const answer = {
     uuid: answerMessage.uuid,
     conversationUuid: conversation.uuid,
     role: answerMessage.role,
     content: answerMessage.content,
     createdAt: answerMessage.createdAt,
+  };
+
+  if (newConversation) {
+    return {
+      answer,
+      conversation,
+    };
+  }
+
+  return {
+    answer,
   };
 };

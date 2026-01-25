@@ -8,9 +8,9 @@ export const chat = async (req, res) => {
   const { userDetails, body } = req;
   const { conversationUuid, message } = body;
 
-  const answer = sendMessage(userDetails, conversationUuid, message);
+  const result = await sendMessage(userDetails, conversationUuid, message);
 
-  return res.json({ answer, success: true });
+  return res.json({ ...result, success: true });
 };
 
 export const messages = (req, res) => {
