@@ -1,9 +1,17 @@
 # Lite-data-excavator
 
-This is a demo app which will use (S)LLM to summarize data found on the web.
-The idea is to utilize multiple search results and come to a short conclusion.
+This app is a service on which user can schedule jobs.
+And have local or external executors accomplishing those jobs.
 
 ### Wants
+
+- JWT authentication
+- JOB CRUD
+- Job scheduler
+- Job executing by different systems/services/tools
+- Job executer
+
+### Feeders?
 
 - Brave api
 - Duckduckgo api
@@ -16,12 +24,11 @@ The idea is to utilize multiple search results and come to a short conclusion.
 
 ### Todos:
 
-- Make the api responses more clear and content type json
-- User authentication -- done
-- User conversations (CRUD): list convos, create new convo, delete convo, edit convo title -- partially done
-- User chat: send message to convo -- partially done
-- LLM response on convo
-- LLM convo summarize (in case of exceeding context). Convo Summary should be new entity in the database
-- Introduce tool_calling LLM and hello world tool
-- Rework/implement the code
-- Start adding websearch api abilities/tools
+- Stage 1: Authentication
+- Stage 2: Jobs CRUD
+- Stage 3: Scheduler, Executor, Result DTO
+- Stage 4: LLM Executor
+- Stage 5: Executor chain
+- Stage 6: Basic webscrap executor
+- Stage 7: RSS executor
+- Stage 8: Notification executor
